@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Interaktive Geburtstags-Geschenkkarte</title>
+<style>
+  :root{
+    --card-w: 380px;
+    --card-h: 240px;
+    --accent: #0ea5a4;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    font-family:Inter,system-ui,Arial;
+    background:linear-gradient(180deg,#071029 0%, #0b1220 100%);
+    color:#e6eef6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px
+  }
+  .wrapper{
+    max-width:900px;
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:28px;
+    align-items:start
+  }
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 6px 24px rgba(2,6,23,0.6);
+    border:1px solid rgba(255,255,255,0.03)
+  }
+  .card-scene{
+    width:var(--card-w);
+    height:var(--card-h);
+    perspective:1400px;
+    margin: 0 auto;
+  }
+  .card{
+    width:100%;
+    height:100%;
+    border-radius:14px;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .9s cubic-bezier(.2,.9,.3,1);
+    box-shadow:0 8px 30px rgba(2,6,23,0.6);
+    cursor:pointer;
+  }
+  .card.is-flipped{transform:rotateY(180deg);}
+  .card-face{
+    position:absolute;
+    inset:0;
+    border-radius:14px;
+    backface-visibility:hidden;
+    overflow:hidden;
+  }
+  .card-face img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .card-back{transform:rotateY(180deg);}
+  #saveBtn {
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:3;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    border:0;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:12px;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  #saveBtn:hover { background:rgba(0,0,0,0.8); }
+  .amount-label{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    padding:4px 8px;
+    border-radius:6px;
+    font-weight:bold;
+  }
+  .merchants{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:8px
+  }
+  .merchant-btn{
+    background:rgba(255,255,255,0.03);
+    padding:8px 10px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,0.03);
+    cursor:pointer;
+    font-weight:600
+  }
+  @media (max-width:880px){
+    .wrapper{grid-template-columns:1fr;align-items:center}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="panel">
+    <div style="text-align:center;margin-bottom:12px">
+      <div style="font-size:20px;font-weight:700">🎁 Geburtstags-Geschenk für Thierry</div>
+      <div class="hint">Klicke auf die Karte, um sie umzudrehen — dann kannst du den Gutschein herunterladen.</div>
+    </div>
+    <div class="card-scene">
+      <div id="card" class="card">
+        <!-- Front -->
+        <div class="card-face card-front">
+          <img src="front.jpg" alt="Vorderseite">
+          <div class="amount-label">25 CHF</div>
+        </div>
+        <!-- Back -->
+        <div class="card-face card-back">
+          <img src="back.jpg" alt="Rückseite">
+          <a id="saveBtn" href="Kartendaten.txt" download>Kartendaten herunterladen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div style="font-weight:700;margin-bottom:6px">Direkt zu Shops</div>
+    <div class="merchants">
+      <button class="merchant-btn" data-href="https://www.digitec.ch">Digitec</button>
+      <button class="merchant-btn" data-href="https://www.amazon.de">Amazon</button>
+      <button class="merchant-btn" data-href="https://store.steampowered.com">Steam</button>
+      <button class="merchant-btn" data-href="https://www.instant-gaming.com">InstantGaming</button>
+      <button class="merchant-btn" data-href="https://www.g2a.com">G2A</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const card = document.getElementById("card");
+
+  // Karte umdrehen
+  card.addEventListener("click", () => card.classList.toggle("is-flipped"));
+
+  // Merchant Buttons öffnen
+  document.querySelectorAll('.merchant-btn').forEach(b => {
+    b.addEventListener('click', () => window.open(b.dataset.href,'_blank'));
+  });
+</script>
+</body>
+</html>
