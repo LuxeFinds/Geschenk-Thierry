@@ -1,6 +1,0 @@
-Einwegkarte daten
-
-Card Number: 5356 1797 4224 2747
-
-Expiry date         CVV
-11/30               643           
